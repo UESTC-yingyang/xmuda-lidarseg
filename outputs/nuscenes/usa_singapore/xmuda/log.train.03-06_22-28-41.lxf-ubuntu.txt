@@ -1,0 +1,501 @@
+2023-03-06 22:28:41,040 xmuda INFO: 1 GPUs available
+2023-03-06 22:28:41,040 xmuda INFO: Namespace(config_file='configs/nuscenes/usa_singapore/xmuda.yaml', opts=[])
+2023-03-06 22:28:41,040 xmuda INFO: Loaded configuration file configs/nuscenes/usa_singapore/xmuda.yaml
+2023-03-06 22:28:41,040 xmuda INFO: Running with config:
+AUTO_RESUME: True
+DATALOADER:
+  DROP_LAST: True
+  NUM_WORKERS: 4
+DATASET_SOURCE:
+  NuScenesSCN:
+    augmentation:
+      color_jitter: (0.4, 0.4, 0.4)
+      flip_x: 0.5
+      fliplr: 0.5
+      noisy_rot: 0.1
+      rot_z: 6.2831
+      transl: True
+    full_scale: 4096
+    image_normalizer: ()
+    merge_classes: True
+    nuscenes_dir: /media/lxf/Data/nuScenes
+    preprocess_dir: /home/lxf/Workspace/Science/xMUDA/xmuda/xmuda/data/nuscenes/preprocess
+    resize: (400, 225)
+    scale: 20
+    use_image: True
+  TRAIN: ('train_usa',)
+  TYPE: NuScenesSCN
+DATASET_TARGET:
+  NuScenesSCN:
+    augmentation:
+      color_jitter: (0.4, 0.4, 0.4)
+      flip_x: 0.5
+      fliplr: 0.5
+      noisy_rot: 0.1
+      rot_z: 6.2831
+      transl: True
+    full_scale: 4096
+    image_normalizer: ()
+    merge_classes: True
+    nuscenes_dir: /media/lxf/Data/nuScenes
+    preprocess_dir: /home/lxf/Workspace/Science/xMUDA/xmuda/xmuda/data/nuscenes/preprocess
+    pselab_paths: ()
+    resize: (400, 225)
+    scale: 20
+    use_image: True
+  TEST: ('test_singapore',)
+  TRAIN: ('train_singapore',)
+  TYPE: NuScenesSCN
+  VAL: ('val_singapore',)
+MODEL:
+  TYPE: 
+MODEL_2D:
+  CKPT_PATH: 
+  DUAL_HEAD: True
+  NUM_CLASSES: 5
+  TYPE: UNetResNet34
+  UNetResNet34:
+    pretrained: True
+MODEL_3D:
+  CKPT_PATH: 
+  DUAL_HEAD: True
+  NUM_CLASSES: 5
+  SCN:
+    block_reps: 1
+    full_scale: 4096
+    in_channels: 1
+    m: 16
+    num_planes: 7
+    residual_blocks: False
+  TYPE: SCN
+OPTIMIZER:
+  Adam:
+    betas: (0.9, 0.999)
+  BASE_LR: 0.001
+  TYPE: Adam
+  WEIGHT_DECAY: 0.0
+OUTPUT_DIR: outputs/nuscenes/usa_singapore/xmuda
+RESUME_PATH: 
+RESUME_STATES: True
+RNG_SEED: 1
+SCHEDULER:
+  CLIP_LR: 0.0
+  MAX_ITERATION: 100000
+  MultiStepLR:
+    gamma: 0.1
+    milestones: (80000, 90000)
+  TYPE: MultiStepLR
+TRAIN:
+  BATCH_SIZE: 8
+  CHECKPOINT_PERIOD: 5000
+  CLASS_WEIGHTS: [2.47956584, 4.26788384, 5.71114131, 3.80241668, 1.0]
+  FROZEN_PATTERNS: ()
+  LOG_PERIOD: 50
+  MAX_TO_KEEP: 100
+  SUMMARY_PERIOD: 50
+  XMUDA:
+    lambda_logcoral: 0.0
+    lambda_minent: 0.0
+    lambda_pl: 0.0
+    lambda_xm_src: 1.0
+    lambda_xm_trg: 0.1
+VAL:
+  BATCH_SIZE: 32
+  LOG_PERIOD: 20
+  METRIC: seg_iou
+  PERIOD: 5000
+2023-03-06 22:28:41,254 xmuda.train INFO: Build 2D model:
+Net2DSeg(
+  (net_2d): UNetResNet34(
+    (conv1): Conv2d(3, 64, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), bias=False)
+    (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (relu): ReLU(inplace=True)
+    (maxpool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (layer1): Sequential(
+      (0): BasicBlock(
+        (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (1): BasicBlock(
+        (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (2): BasicBlock(
+        (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (layer2): Sequential(
+      (0): BasicBlock(
+        (conv1): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (downsample): Sequential(
+          (0): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): BasicBlock(
+        (conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (2): BasicBlock(
+        (conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (3): BasicBlock(
+        (conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (layer3): Sequential(
+      (0): BasicBlock(
+        (conv1): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (downsample): Sequential(
+          (0): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): BasicBlock(
+        (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (2): BasicBlock(
+        (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (3): BasicBlock(
+        (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (4): BasicBlock(
+        (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (5): BasicBlock(
+        (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (layer4): Sequential(
+      (0): BasicBlock(
+        (conv1): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (downsample): Sequential(
+          (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): BasicBlock(
+        (conv1): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (2): BasicBlock(
+        (conv1): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (dec_t_conv_stage5): Sequential(
+      (0): ConvTranspose2d(512, 256, kernel_size=(2, 2), stride=(2, 2))
+      (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+    )
+    (dec_conv_stage4): Sequential(
+      (0): Conv2d(512, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+    )
+    (dec_t_conv_stage4): Sequential(
+      (0): ConvTranspose2d(256, 128, kernel_size=(2, 2), stride=(2, 2))
+      (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+    )
+    (dec_conv_stage3): Sequential(
+      (0): Conv2d(256, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+    )
+    (dec_t_conv_stage3): Sequential(
+      (0): ConvTranspose2d(128, 64, kernel_size=(2, 2), stride=(2, 2))
+      (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+    )
+    (dec_conv_stage2): Sequential(
+      (0): Conv2d(128, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+    )
+    (dec_t_conv_stage2): Sequential(
+      (0): ConvTranspose2d(64, 64, kernel_size=(2, 2), stride=(2, 2))
+      (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+    )
+    (dec_conv_stage1): Conv2d(128, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (dropout): Dropout(p=0.4, inplace=False)
+  )
+  (linear): Linear(in_features=64, out_features=5, bias=True)
+  (linear2): Linear(in_features=64, out_features=5, bias=True)
+)
+2023-03-06 22:28:41,266 xmuda.train INFO: Build 3D model:
+Net3DSeg(
+  (net_3d): UNetSCN(
+    (sparseModel): Sequential(
+      (0): InputLayer()
+      (1): SubmanifoldConvolution 1->16 C3
+      (2): Sequential(
+        (0): Sequential(
+          (0): BatchNormLeakyReLU(16,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+          (1): SubmanifoldConvolution 16->16 C3
+        )
+        (1): ConcatTable(
+          (0): Identity()
+          (1): Sequential(
+            (0): BatchNormLeakyReLU(16,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+            (1): Convolution 16->32 C2/2
+            (2): Sequential(
+              (0): Sequential(
+                (0): BatchNormLeakyReLU(32,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                (1): SubmanifoldConvolution 32->32 C3
+              )
+              (1): ConcatTable(
+                (0): Identity()
+                (1): Sequential(
+                  (0): BatchNormLeakyReLU(32,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                  (1): Convolution 32->48 C2/2
+                  (2): Sequential(
+                    (0): Sequential(
+                      (0): BatchNormLeakyReLU(48,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                      (1): SubmanifoldConvolution 48->48 C3
+                    )
+                    (1): ConcatTable(
+                      (0): Identity()
+                      (1): Sequential(
+                        (0): BatchNormLeakyReLU(48,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                        (1): Convolution 48->64 C2/2
+                        (2): Sequential(
+                          (0): Sequential(
+                            (0): BatchNormLeakyReLU(64,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                            (1): SubmanifoldConvolution 64->64 C3
+                          )
+                          (1): ConcatTable(
+                            (0): Identity()
+                            (1): Sequential(
+                              (0): BatchNormLeakyReLU(64,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                              (1): Convolution 64->80 C2/2
+                              (2): Sequential(
+                                (0): Sequential(
+                                  (0): BatchNormLeakyReLU(80,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                                  (1): SubmanifoldConvolution 80->80 C3
+                                )
+                                (1): ConcatTable(
+                                  (0): Identity()
+                                  (1): Sequential(
+                                    (0): BatchNormLeakyReLU(80,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                                    (1): Convolution 80->96 C2/2
+                                    (2): Sequential(
+                                      (0): Sequential(
+                                        (0): BatchNormLeakyReLU(96,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                                        (1): SubmanifoldConvolution 96->96 C3
+                                      )
+                                      (1): ConcatTable(
+                                        (0): Identity()
+                                        (1): Sequential(
+                                          (0): BatchNormLeakyReLU(96,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                                          (1): Convolution 96->112 C2/2
+                                          (2): Sequential(
+                                            (0): Sequential(
+                                              (0): BatchNormLeakyReLU(112,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                                              (1): SubmanifoldConvolution 112->112 C3
+                                            )
+                                          )
+                                          (3): BatchNormLeakyReLU(112,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                                          (4): Deconvolution 112->96 C2/2
+                                        )
+                                      )
+                                      (2): JoinTable()
+                                      (3): Sequential(
+                                        (0): BatchNormLeakyReLU(192,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                                        (1): SubmanifoldConvolution 192->96 C3
+                                      )
+                                    )
+                                    (3): BatchNormLeakyReLU(96,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                                    (4): Deconvolution 96->80 C2/2
+                                  )
+                                )
+                                (2): JoinTable()
+                                (3): Sequential(
+                                  (0): BatchNormLeakyReLU(160,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                                  (1): SubmanifoldConvolution 160->80 C3
+                                )
+                              )
+                              (3): BatchNormLeakyReLU(80,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                              (4): Deconvolution 80->64 C2/2
+                            )
+                          )
+                          (2): JoinTable()
+                          (3): Sequential(
+                            (0): BatchNormLeakyReLU(128,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                            (1): SubmanifoldConvolution 128->64 C3
+                          )
+                        )
+                        (3): BatchNormLeakyReLU(64,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                        (4): Deconvolution 64->48 C2/2
+                      )
+                    )
+                    (2): JoinTable()
+                    (3): Sequential(
+                      (0): BatchNormLeakyReLU(96,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                      (1): SubmanifoldConvolution 96->48 C3
+                    )
+                  )
+                  (3): BatchNormLeakyReLU(48,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                  (4): Deconvolution 48->32 C2/2
+                )
+              )
+              (2): JoinTable()
+              (3): Sequential(
+                (0): BatchNormLeakyReLU(64,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+                (1): SubmanifoldConvolution 64->32 C3
+              )
+            )
+            (3): BatchNormLeakyReLU(32,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+            (4): Deconvolution 32->16 C2/2
+          )
+        )
+        (2): JoinTable()
+        (3): Sequential(
+          (0): BatchNormLeakyReLU(32,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
+          (1): SubmanifoldConvolution 32->16 C3
+        )
+      )
+      (3): BatchNormReLU(16,eps=0.0001,momentum=0.99,affine=True)
+      (4): OutputLayer()
+    )
+  )
+  (linear): Linear(in_features=16, out_features=5, bias=True)
+  (linear2): Linear(in_features=16, out_features=5, bias=True)
+)
+2023-03-06 22:28:42,937 xmuda.train INFO: No checkpoint found. Initializing model from scratch
+2023-03-06 22:28:42,937 xmuda.train INFO: No checkpoint found. Initializing model from scratch
+2023-03-06 22:28:43,296 xmuda.train INFO: Start training from iteration 0
+2023-03-06 22:28:44,821 xmuda.train INFO: iter:    1  seg_iou_2d: 0.1175  seg_iou_3d: 0.0459  seg_loss_src_2d: 1.4912 (1.4912)  seg_loss_src_3d: 1.4790 (1.4790)  xm_loss_src_2d: 0.0784 (0.0784)  xm_loss_src_3d: 0.0799 (0.0799)  xm_loss_trg_2d: 0.0800 (0.0800)  xm_loss_trg_3d: 0.0813 (0.0813)  time: 1.5235 (1.5235)  data: 0.4032 (0.4032)  lr: 1.00e-03  max mem: 4656
+2023-03-06 22:29:16,512 xmuda.train INFO: iter:   50  seg_iou_2d: 0.2822  seg_iou_3d: 0.1365  seg_loss_src_2d: 0.1809 (0.2603)  seg_loss_src_3d: 1.0550 (1.1955)  xm_loss_src_2d: 0.0204 (0.0297)  xm_loss_src_3d: 1.1043 (1.1876)  xm_loss_trg_2d: 0.0242 (0.0320)  xm_loss_trg_3d: 1.0605 (1.1295)  time: 0.6467 (0.6642)  data: 0.0099 (0.0184)  lr: 1.00e-03  max mem: 4866
+2023-03-06 22:29:49,279 xmuda.train INFO: iter:  100  seg_iou_2d: 0.3109  seg_iou_3d: 0.1802  seg_loss_src_2d: 0.0858 (0.1818)  seg_loss_src_3d: 0.6521 (0.9856)  xm_loss_src_2d: 0.0282 (0.0271)  xm_loss_src_3d: 0.6791 (0.9935)  xm_loss_trg_2d: 0.0358 (0.0315)  xm_loss_trg_3d: 0.6693 (0.9533)  time: 0.6443 (0.6598)  data: 0.0099 (0.0141)  lr: 1.00e-03  max mem: 4870
+2023-03-06 22:30:21,897 xmuda.train INFO: iter:  150  seg_iou_2d: 0.3391  seg_iou_3d: 0.2055  seg_loss_src_2d: 0.0592 (0.1429)  seg_loss_src_3d: 0.3839 (0.8071)  xm_loss_src_2d: 0.0401 (0.0303)  xm_loss_src_3d: 0.3743 (0.8131)  xm_loss_trg_2d: 0.0721 (0.0411)  xm_loss_trg_3d: 0.3923 (0.7909)  time: 0.6642 (0.6573)  data: 0.0099 (0.0128)  lr: 1.00e-03  max mem: 4870
+2023-03-06 22:30:56,165 xmuda.train INFO: iter:  200  seg_iou_2d: 0.3690  seg_iou_3d: 0.2231  seg_loss_src_2d: 0.0415 (0.1190)  seg_loss_src_3d: 0.2683 (0.6785)  xm_loss_src_2d: 0.0435 (0.0332)  xm_loss_src_3d: 0.2261 (0.6748)  xm_loss_trg_2d: 0.0927 (0.0530)  xm_loss_trg_3d: 0.2626 (0.6675)  time: 0.7316 (0.6643)  data: 0.0100 (0.0121)  lr: 1.00e-03  max mem: 4870
+2023-03-06 22:31:30,319 xmuda.train INFO: iter:  250  seg_iou_2d: 0.3935  seg_iou_3d: 0.2361  seg_loss_src_2d: 0.0318 (0.1020)  seg_loss_src_3d: 0.2037 (0.5874)  xm_loss_src_2d: 0.0409 (0.0349)  xm_loss_src_3d: 0.1613 (0.5759)  xm_loss_trg_2d: 0.0972 (0.0611)  xm_loss_trg_3d: 0.2205 (0.5790)  time: 0.6777 (0.6680)  data: 0.0100 (0.0117)  lr: 1.00e-03  max mem: 4870
+2023-03-06 22:32:03,745 xmuda.train INFO: iter:  300  seg_iou_2d: 0.4076  seg_iou_3d: 0.2461  seg_loss_src_2d: 0.0786 (0.0959)  seg_loss_src_3d: 0.1880 (0.5220)  xm_loss_src_2d: 0.0583 (0.0381)  xm_loss_src_3d: 0.1340 (0.5045)  xm_loss_trg_2d: 0.1539 (0.0727)  xm_loss_trg_3d: 0.2533 (0.5265)  time: 0.6545 (0.6681)  data: 0.0100 (0.0114)  lr: 1.00e-03  max mem: 4870
+2023-03-06 22:32:37,730 xmuda.train INFO: iter:  350  seg_iou_2d: 0.4194  seg_iou_3d: 0.2545  seg_loss_src_2d: 0.0347 (0.0889)  seg_loss_src_3d: 0.1642 (0.4714)  xm_loss_src_2d: 0.0419 (0.0392)  xm_loss_src_3d: 0.1140 (0.4493)  xm_loss_trg_2d: 0.1195 (0.0812)  xm_loss_trg_3d: 0.2006 (0.4828)  time: 0.6980 (0.6697)  data: 0.0099 (0.0113)  lr: 1.00e-03  max mem: 4871
+2023-03-06 22:33:11,131 xmuda.train INFO: iter:  400  seg_iou_2d: 0.4338  seg_iou_3d: 0.2612  seg_loss_src_2d: 0.0215 (0.0809)  seg_loss_src_3d: 0.1595 (0.4326)  xm_loss_src_2d: 0.0442 (0.0396)  xm_loss_src_3d: 0.1072 (0.4067)  xm_loss_trg_2d: 0.1057 (0.0847)  xm_loss_trg_3d: 0.1779 (0.4451)  time: 0.6796 (0.6695)  data: 0.0105 (0.0111)  lr: 1.00e-03  max mem: 4871
+2023-03-06 22:33:45,051 xmuda.train INFO: iter:  450  seg_iou_2d: 0.4510  seg_iou_3d: 0.2668  seg_loss_src_2d: 0.0197 (0.0741)  seg_loss_src_3d: 0.1524 (0.4015)  xm_loss_src_2d: 0.0418 (0.0399)  xm_loss_src_3d: 0.0990 (0.3726)  xm_loss_trg_2d: 0.1073 (0.0875)  xm_loss_trg_3d: 0.1763 (0.4157)  time: 0.7236 (0.6705)  data: 0.0100 (0.0110)  lr: 1.00e-03  max mem: 4871
+2023-03-06 22:34:19,805 xmuda.train INFO: iter:  500  seg_iou_2d: 0.4680  seg_iou_3d: 0.2717  seg_loss_src_2d: 0.0156 (0.0683)  seg_loss_src_3d: 0.1413 (0.3755)  xm_loss_src_2d: 0.0380 (0.0398)  xm_loss_src_3d: 0.0900 (0.3446)  xm_loss_trg_2d: 0.1030 (0.0890)  xm_loss_trg_3d: 0.1712 (0.3913)  time: 0.6698 (0.6729)  data: 0.0103 (0.0109)  lr: 1.00e-03  max mem: 4871
+2023-03-06 22:34:52,460 xmuda.train INFO: iter:  550  seg_iou_2d: 0.4889  seg_iou_3d: 0.2761  seg_loss_src_2d: 0.0111 (0.0633)  seg_loss_src_3d: 0.1317 (0.3535)  xm_loss_src_2d: 0.0340 (0.0394)  xm_loss_src_3d: 0.0827 (0.3209)  xm_loss_trg_2d: 0.0983 (0.0897)  xm_loss_trg_3d: 0.1589 (0.3701)  time: 0.6516 (0.6711)  data: 0.0101 (0.0109)  lr: 1.00e-03  max mem: 4871
+2023-03-06 22:35:26,754 xmuda.train INFO: iter:  600  seg_iou_2d: 0.5126  seg_iou_3d: 0.2801  seg_loss_src_2d: 0.0112 (0.0589)  seg_loss_src_3d: 0.1230 (0.3346)  xm_loss_src_2d: 0.0313 (0.0389)  xm_loss_src_3d: 0.0770 (0.3008)  xm_loss_trg_2d: 0.0918 (0.0902)  xm_loss_trg_3d: 0.1627 (0.3527)  time: 0.6711 (0.6724)  data: 0.0101 (0.0108)  lr: 1.00e-03  max mem: 4871
+2023-03-06 22:36:00,782 xmuda.train INFO: iter:  650  seg_iou_2d: 0.5340  seg_iou_3d: 0.2836  seg_loss_src_2d: 0.0091 (0.0550)  seg_loss_src_3d: 0.1230 (0.3185)  xm_loss_src_2d: 0.0344 (0.0386)  xm_loss_src_3d: 0.0758 (0.2836)  xm_loss_trg_2d: 0.0891 (0.0900)  xm_loss_trg_3d: 0.1626 (0.3379)  time: 0.6511 (0.6730)  data: 0.0104 (0.0108)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:36:32,967 xmuda.train INFO: iter:  700  seg_iou_2d: 0.5515  seg_iou_3d: 0.2868  seg_loss_src_2d: 0.0133 (0.0518)  seg_loss_src_3d: 0.1182 (0.3044)  xm_loss_src_2d: 0.0338 (0.0384)  xm_loss_src_3d: 0.0718 (0.2686)  xm_loss_trg_2d: 0.0982 (0.0905)  xm_loss_trg_3d: 0.1749 (0.3256)  time: 0.6413 (0.6709)  data: 0.0100 (0.0107)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:37:05,114 xmuda.train INFO: iter:  750  seg_iou_2d: 0.5693  seg_iou_3d: 0.2898  seg_loss_src_2d: 0.0087 (0.0490)  seg_loss_src_3d: 0.1129 (0.2918)  xm_loss_src_2d: 0.0325 (0.0381)  xm_loss_src_3d: 0.0684 (0.2555)  xm_loss_trg_2d: 0.0995 (0.0912)  xm_loss_trg_3d: 0.1687 (0.3159)  time: 0.6443 (0.6690)  data: 0.0102 (0.0107)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:37:37,316 xmuda.train INFO: iter:  800  seg_iou_2d: 0.5870  seg_iou_3d: 0.2927  seg_loss_src_2d: 0.0042 (0.0463)  seg_loss_src_3d: 0.1051 (0.2802)  xm_loss_src_2d: 0.0286 (0.0375)  xm_loss_src_3d: 0.0637 (0.2435)  xm_loss_trg_2d: 0.0837 (0.0909)  xm_loss_trg_3d: 0.1500 (0.3058)  time: 0.6432 (0.6675)  data: 0.0100 (0.0107)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:38:09,419 xmuda.train INFO: iter:  850  seg_iou_2d: 0.6041  seg_iou_3d: 0.2952  seg_loss_src_2d: 0.0048 (0.0438)  seg_loss_src_3d: 0.1067 (0.2701)  xm_loss_src_2d: 0.0339 (0.0373)  xm_loss_src_3d: 0.0641 (0.2330)  xm_loss_trg_2d: 0.0880 (0.0907)  xm_loss_trg_3d: 0.1536 (0.2967)  time: 0.6414 (0.6660)  data: 0.0100 (0.0106)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:38:41,600 xmuda.train INFO: iter:  900  seg_iou_2d: 0.6192  seg_iou_3d: 0.2974  seg_loss_src_2d: 0.0054 (0.0417)  seg_loss_src_3d: 0.1149 (0.2614)  xm_loss_src_2d: 0.0350 (0.0372)  xm_loss_src_3d: 0.0680 (0.2239)  xm_loss_trg_2d: 0.0848 (0.0903)  xm_loss_trg_3d: 0.1437 (0.2881)  time: 0.6432 (0.6647)  data: 0.0103 (0.0106)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:39:13,778 xmuda.train INFO: iter:  950  seg_iou_2d: 0.6336  seg_iou_3d: 0.2996  seg_loss_src_2d: 0.0045 (0.0397)  seg_loss_src_3d: 0.1027 (0.2533)  xm_loss_src_2d: 0.0320 (0.0369)  xm_loss_src_3d: 0.0619 (0.2155)  xm_loss_trg_2d: 0.0820 (0.0900)  xm_loss_trg_3d: 0.1463 (0.2806)  time: 0.6439 (0.6636)  data: 0.0101 (0.0106)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:39:45,960 xmuda.train INFO: iter: 1000  seg_iou_2d: 0.6424  seg_iou_3d: 0.3018  seg_loss_src_2d: 0.0177 (0.0386)  seg_loss_src_3d: 0.1090 (0.2459)  xm_loss_src_2d: 0.0366 (0.0369)  xm_loss_src_3d: 0.0671 (0.2080)  xm_loss_trg_2d: 0.1240 (0.0919)  xm_loss_trg_3d: 0.1937 (0.2771)  time: 0.6434 (0.6626)  data: 0.0101 (0.0105)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:40:18,124 xmuda.train INFO: iter: 1050  seg_iou_2d: 0.6533  seg_iou_3d: 0.3037  seg_loss_src_2d: 0.0055 (0.0371)  seg_loss_src_3d: 0.1140 (0.2397)  xm_loss_src_2d: 0.0377 (0.0370)  xm_loss_src_3d: 0.0668 (0.2013)  xm_loss_trg_2d: 0.0936 (0.0921)  xm_loss_trg_3d: 0.1535 (0.2713)  time: 0.6440 (0.6617)  data: 0.0100 (0.0105)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:40:50,327 xmuda.train INFO: iter: 1100  seg_iou_2d: 0.6647  seg_iou_3d: 0.3059  seg_loss_src_2d: 0.0029 (0.0356)  seg_loss_src_3d: 0.1043 (0.2337)  xm_loss_src_2d: 0.0301 (0.0368)  xm_loss_src_3d: 0.0618 (0.1951)  xm_loss_trg_2d: 0.0838 (0.0918)  xm_loss_trg_3d: 0.1370 (0.2653)  time: 0.6434 (0.6609)  data: 0.0101 (0.0105)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:41:22,480 xmuda.train INFO: iter: 1150  seg_iou_2d: 0.6752  seg_iou_3d: 0.3083  seg_loss_src_2d: 0.0023 (0.0342)  seg_loss_src_3d: 0.0993 (0.2278)  xm_loss_src_2d: 0.0265 (0.0364)  xm_loss_src_3d: 0.0582 (0.1891)  xm_loss_trg_2d: 0.0816 (0.0916)  xm_loss_trg_3d: 0.1391 (0.2601)  time: 0.6442 (0.6601)  data: 0.0102 (0.0105)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:41:54,726 xmuda.train INFO: iter: 1200  seg_iou_2d: 0.6854  seg_iou_3d: 0.3110  seg_loss_src_2d: 0.0024 (0.0329)  seg_loss_src_3d: 0.0962 (0.2222)  xm_loss_src_2d: 0.0306 (0.0361)  xm_loss_src_3d: 0.0556 (0.1835)  xm_loss_trg_2d: 0.0783 (0.0912)  xm_loss_trg_3d: 0.1320 (0.2549)  time: 0.6446 (0.6595)  data: 0.0099 (0.0105)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:42:26,910 xmuda.train INFO: iter: 1250  seg_iou_2d: 0.6947  seg_iou_3d: 0.3136  seg_loss_src_2d: 0.0021 (0.0316)  seg_loss_src_3d: 0.0924 (0.2170)  xm_loss_src_2d: 0.0275 (0.0358)  xm_loss_src_3d: 0.0524 (0.1783)  xm_loss_trg_2d: 0.0818 (0.0907)  xm_loss_trg_3d: 0.1409 (0.2501)  time: 0.6424 (0.6588)  data: 0.0101 (0.0104)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:42:59,063 xmuda.train INFO: iter: 1300  seg_iou_2d: 0.7034  seg_iou_3d: 0.3163  seg_loss_src_2d: 0.0016 (0.0305)  seg_loss_src_3d: 0.0896 (0.2121)  xm_loss_src_2d: 0.0247 (0.0354)  xm_loss_src_3d: 0.0510 (0.1734)  xm_loss_trg_2d: 0.0793 (0.0902)  xm_loss_trg_3d: 0.1334 (0.2457)  time: 0.6417 (0.6582)  data: 0.0099 (0.0104)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:43:31,175 xmuda.train INFO: iter: 1350  seg_iou_2d: 0.7117  seg_iou_3d: 0.3191  seg_loss_src_2d: 0.0020 (0.0294)  seg_loss_src_3d: 0.0929 (0.2075)  xm_loss_src_2d: 0.0281 (0.0350)  xm_loss_src_3d: 0.0524 (0.1688)  xm_loss_trg_2d: 0.0805 (0.0899)  xm_loss_trg_3d: 0.1372 (0.2418)  time: 0.6432 (0.6576)  data: 0.0099 (0.0104)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:44:03,329 xmuda.train INFO: iter: 1400  seg_iou_2d: 0.7195  seg_iou_3d: 0.3218  seg_loss_src_2d: 0.0022 (0.0284)  seg_loss_src_3d: 0.0909 (0.2034)  xm_loss_src_2d: 0.0267 (0.0348)  xm_loss_src_3d: 0.0516 (0.1647)  xm_loss_trg_2d: 0.0866 (0.0896)  xm_loss_trg_3d: 0.1479 (0.2380)  time: 0.6434 (0.6571)  data: 0.0100 (0.0104)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:44:35,529 xmuda.train INFO: iter: 1450  seg_iou_2d: 0.7270  seg_iou_3d: 0.3242  seg_loss_src_2d: 0.0023 (0.0275)  seg_loss_src_3d: 0.0904 (0.1994)  xm_loss_src_2d: 0.0274 (0.0345)  xm_loss_src_3d: 0.0511 (0.1607)  xm_loss_trg_2d: 0.0855 (0.0893)  xm_loss_trg_3d: 0.1482 (0.2346)  time: 0.6440 (0.6566)  data: 0.0101 (0.0104)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:45:07,698 xmuda.train INFO: iter: 1500  seg_iou_2d: 0.7340  seg_iou_3d: 0.3266  seg_loss_src_2d: 0.0012 (0.0267)  seg_loss_src_3d: 0.0864 (0.1956)  xm_loss_src_2d: 0.0262 (0.0343)  xm_loss_src_3d: 0.0489 (0.1570)  xm_loss_trg_2d: 0.0733 (0.0890)  xm_loss_trg_3d: 0.1303 (0.2314)  time: 0.6436 (0.6562)  data: 0.0101 (0.0104)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:45:39,875 xmuda.train INFO: iter: 1550  seg_iou_2d: 0.7408  seg_iou_3d: 0.3290  seg_loss_src_2d: 0.0010 (0.0258)  seg_loss_src_3d: 0.0847 (0.1920)  xm_loss_src_2d: 0.0233 (0.0340)  xm_loss_src_3d: 0.0477 (0.1534)  xm_loss_trg_2d: 0.0734 (0.0885)  xm_loss_trg_3d: 0.1229 (0.2280)  time: 0.6428 (0.6558)  data: 0.0103 (0.0104)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:46:12,137 xmuda.train INFO: iter: 1600  seg_iou_2d: 0.7471  seg_iou_3d: 0.3313  seg_loss_src_2d: 0.0020 (0.0251)  seg_loss_src_3d: 0.0804 (0.1887)  xm_loss_src_2d: 0.0238 (0.0338)  xm_loss_src_3d: 0.0457 (0.1502)  xm_loss_trg_2d: 0.0741 (0.0882)  xm_loss_trg_3d: 0.1413 (0.2252)  time: 0.6472 (0.6555)  data: 0.0101 (0.0104)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:46:43,396 xmuda.train INFO: iter: 1650  seg_iou_2d: 0.7530  seg_iou_3d: 0.3332  seg_loss_src_2d: 0.0017 (0.0244)  seg_loss_src_3d: 0.0818 (0.1855)  xm_loss_src_2d: 0.0263 (0.0336)  xm_loss_src_3d: 0.0455 (0.1470)  xm_loss_trg_2d: 0.0724 (0.0878)  xm_loss_trg_3d: 0.1291 (0.2223)  time: 0.6207 (0.6545)  data: 0.0100 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:47:14,431 xmuda.train INFO: iter: 1700  seg_iou_2d: 0.7586  seg_iou_3d: 0.3355  seg_loss_src_2d: 0.0017 (0.0237)  seg_loss_src_3d: 0.0853 (0.1824)  xm_loss_src_2d: 0.0254 (0.0333)  xm_loss_src_3d: 0.0477 (0.1440)  xm_loss_trg_2d: 0.0726 (0.0874)  xm_loss_trg_3d: 0.1325 (0.2197)  time: 0.6201 (0.6535)  data: 0.0100 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:47:45,502 xmuda.train INFO: iter: 1750  seg_iou_2d: 0.7638  seg_iou_3d: 0.3378  seg_loss_src_2d: 0.0022 (0.0231)  seg_loss_src_3d: 0.0829 (0.1796)  xm_loss_src_2d: 0.0258 (0.0332)  xm_loss_src_3d: 0.0469 (0.1412)  xm_loss_trg_2d: 0.0670 (0.0872)  xm_loss_trg_3d: 0.1154 (0.2172)  time: 0.6216 (0.6526)  data: 0.0100 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:48:16,569 xmuda.train INFO: iter: 1800  seg_iou_2d: 0.7690  seg_iou_3d: 0.3401  seg_loss_src_2d: 0.0009 (0.0225)  seg_loss_src_3d: 0.0789 (0.1768)  xm_loss_src_2d: 0.0237 (0.0330)  xm_loss_src_3d: 0.0438 (0.1385)  xm_loss_trg_2d: 0.0726 (0.0869)  xm_loss_trg_3d: 0.1359 (0.2149)  time: 0.6211 (0.6518)  data: 0.0104 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:48:47,577 xmuda.train INFO: iter: 1850  seg_iou_2d: 0.7739  seg_iou_3d: 0.3420  seg_loss_src_2d: 0.0007 (0.0219)  seg_loss_src_3d: 0.0885 (0.1742)  xm_loss_src_2d: 0.0303 (0.0328)  xm_loss_src_3d: 0.0503 (0.1360)  xm_loss_trg_2d: 0.0695 (0.0864)  xm_loss_trg_3d: 0.1389 (0.2126)  time: 0.6204 (0.6509)  data: 0.0100 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:49:18,614 xmuda.train INFO: iter: 1900  seg_iou_2d: 0.7786  seg_iou_3d: 0.3442  seg_loss_src_2d: 0.0009 (0.0213)  seg_loss_src_3d: 0.0749 (0.1717)  xm_loss_src_2d: 0.0211 (0.0326)  xm_loss_src_3d: 0.0410 (0.1336)  xm_loss_trg_2d: 0.0767 (0.0861)  xm_loss_trg_3d: 0.1557 (0.2106)  time: 0.6212 (0.6501)  data: 0.0098 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:49:49,672 xmuda.train INFO: iter: 1950  seg_iou_2d: 0.7833  seg_iou_3d: 0.3462  seg_loss_src_2d: 0.0008 (0.0208)  seg_loss_src_3d: 0.0806 (0.1693)  xm_loss_src_2d: 0.0275 (0.0323)  xm_loss_src_3d: 0.0448 (0.1312)  xm_loss_trg_2d: 0.0729 (0.0858)  xm_loss_trg_3d: 0.1239 (0.2085)  time: 0.6204 (0.6494)  data: 0.0100 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:50:20,704 xmuda.train INFO: iter: 2000  seg_iou_2d: 0.7877  seg_iou_3d: 0.3482  seg_loss_src_2d: 0.0015 (0.0203)  seg_loss_src_3d: 0.0752 (0.1669)  xm_loss_src_2d: 0.0230 (0.0321)  xm_loss_src_3d: 0.0410 (0.1290)  xm_loss_trg_2d: 0.0721 (0.0855)  xm_loss_trg_3d: 0.1378 (0.2067)  time: 0.6208 (0.6486)  data: 0.0100 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:50:51,726 xmuda.train INFO: iter: 2050  seg_iou_2d: 0.7919  seg_iou_3d: 0.3501  seg_loss_src_2d: 0.0014 (0.0198)  seg_loss_src_3d: 0.0715 (0.1646)  xm_loss_src_2d: 0.0210 (0.0318)  xm_loss_src_3d: 0.0383 (0.1268)  xm_loss_trg_2d: 0.0713 (0.0851)  xm_loss_trg_3d: 0.1326 (0.2049)  time: 0.6217 (0.6479)  data: 0.0104 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:51:22,782 xmuda.train INFO: iter: 2100  seg_iou_2d: 0.7957  seg_iou_3d: 0.3517  seg_loss_src_2d: 0.0018 (0.0194)  seg_loss_src_3d: 0.0686 (0.1624)  xm_loss_src_2d: 0.0223 (0.0316)  xm_loss_src_3d: 0.0378 (0.1248)  xm_loss_trg_2d: 0.0769 (0.0849)  xm_loss_trg_3d: 0.1405 (0.2033)  time: 0.6212 (0.6473)  data: 0.0100 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:51:53,875 xmuda.train INFO: iter: 2150  seg_iou_2d: 0.7996  seg_iou_3d: 0.3535  seg_loss_src_2d: 0.0010 (0.0190)  seg_loss_src_3d: 0.0713 (0.1603)  xm_loss_src_2d: 0.0200 (0.0314)  xm_loss_src_3d: 0.0385 (0.1228)  xm_loss_trg_2d: 0.0633 (0.0844)  xm_loss_trg_3d: 0.1262 (0.2014)  time: 0.6207 (0.6467)  data: 0.0100 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:52:24,879 xmuda.train INFO: iter: 2200  seg_iou_2d: 0.8033  seg_iou_3d: 0.3554  seg_loss_src_2d: 0.0014 (0.0186)  seg_loss_src_3d: 0.0725 (0.1583)  xm_loss_src_2d: 0.0224 (0.0312)  xm_loss_src_3d: 0.0401 (0.1209)  xm_loss_trg_2d: 0.0717 (0.0842)  xm_loss_trg_3d: 0.1425 (0.1999)  time: 0.6206 (0.6461)  data: 0.0099 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:52:56,350 xmuda.train INFO: iter: 2250  seg_iou_2d: 0.8068  seg_iou_3d: 0.3571  seg_loss_src_2d: 0.0009 (0.0182)  seg_loss_src_3d: 0.0690 (0.1564)  xm_loss_src_2d: 0.0208 (0.0310)  xm_loss_src_3d: 0.0377 (0.1191)  xm_loss_trg_2d: 0.0684 (0.0839)  xm_loss_trg_3d: 0.1226 (0.1984)  time: 0.6410 (0.6457)  data: 0.0100 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:53:29,674 xmuda.train INFO: iter: 2300  seg_iou_2d: 0.8101  seg_iou_3d: 0.3583  seg_loss_src_2d: 0.0011 (0.0178)  seg_loss_src_3d: 0.0713 (0.1546)  xm_loss_src_2d: 0.0254 (0.0308)  xm_loss_src_3d: 0.0391 (0.1174)  xm_loss_trg_2d: 0.0720 (0.0836)  xm_loss_trg_3d: 0.1252 (0.1968)  time: 0.6546 (0.6462)  data: 0.0102 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:54:02,510 xmuda.train INFO: iter: 2350  seg_iou_2d: 0.8134  seg_iou_3d: 0.3601  seg_loss_src_2d: 0.0028 (0.0175)  seg_loss_src_3d: 0.0721 (0.1528)  xm_loss_src_2d: 0.0246 (0.0306)  xm_loss_src_3d: 0.0416 (0.1157)  xm_loss_trg_2d: 0.0756 (0.0834)  xm_loss_trg_3d: 0.1404 (0.1955)  time: 0.6677 (0.6464)  data: 0.0102 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:54:34,878 xmuda.train INFO: iter: 2400  seg_iou_2d: 0.8163  seg_iou_3d: 0.3617  seg_loss_src_2d: 0.0016 (0.0172)  seg_loss_src_3d: 0.0679 (0.1510)  xm_loss_src_2d: 0.0227 (0.0305)  xm_loss_src_3d: 0.0377 (0.1141)  xm_loss_trg_2d: 0.0730 (0.0832)  xm_loss_trg_3d: 0.1252 (0.1942)  time: 0.6519 (0.6464)  data: 0.0101 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:55:07,454 xmuda.train INFO: iter: 2450  seg_iou_2d: 0.8194  seg_iou_3d: 0.3633  seg_loss_src_2d: 0.0011 (0.0169)  seg_loss_src_3d: 0.0739 (0.1495)  xm_loss_src_2d: 0.0239 (0.0304)  xm_loss_src_3d: 0.0406 (0.1126)  xm_loss_trg_2d: 0.0690 (0.0829)  xm_loss_trg_3d: 0.1227 (0.1928)  time: 0.6614 (0.6465)  data: 0.0102 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:55:41,492 xmuda.train INFO: iter: 2500  seg_iou_2d: 0.8224  seg_iou_3d: 0.3649  seg_loss_src_2d: 0.0005 (0.0165)  seg_loss_src_3d: 0.0671 (0.1478)  xm_loss_src_2d: 0.0194 (0.0302)  xm_loss_src_3d: 0.0369 (0.1111)  xm_loss_trg_2d: 0.0730 (0.0827)  xm_loss_trg_3d: 0.1293 (0.1915)  time: 0.6762 (0.6472)  data: 0.0100 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:56:14,739 xmuda.train INFO: iter: 2550  seg_iou_2d: 0.8254  seg_iou_3d: 0.3664  seg_loss_src_2d: 0.0004 (0.0162)  seg_loss_src_3d: 0.0627 (0.1462)  xm_loss_src_2d: 0.0171 (0.0299)  xm_loss_src_3d: 0.0337 (0.1096)  xm_loss_trg_2d: 0.0655 (0.0824)  xm_loss_trg_3d: 0.1211 (0.1902)  time: 0.6616 (0.6476)  data: 0.0100 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:56:47,545 xmuda.train INFO: iter: 2600  seg_iou_2d: 0.8282  seg_iou_3d: 0.3680  seg_loss_src_2d: 0.0004 (0.0159)  seg_loss_src_3d: 0.0709 (0.1446)  xm_loss_src_2d: 0.0220 (0.0297)  xm_loss_src_3d: 0.0386 (0.1082)  xm_loss_trg_2d: 0.0625 (0.0820)  xm_loss_trg_3d: 0.1165 (0.1888)  time: 0.6509 (0.6477)  data: 0.0102 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:57:22,417 xmuda.train INFO: iter: 2650  seg_iou_2d: 0.8305  seg_iou_3d: 0.3695  seg_loss_src_2d: 0.0046 (0.0157)  seg_loss_src_3d: 0.0643 (0.1431)  xm_loss_src_2d: 0.0223 (0.0296)  xm_loss_src_3d: 0.0362 (0.1068)  xm_loss_trg_2d: 0.0806 (0.0820)  xm_loss_trg_3d: 0.1417 (0.1881)  time: 0.7252 (0.6487)  data: 0.0104 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:57:55,836 xmuda.train INFO: iter: 2700  seg_iou_2d: 0.8258  seg_iou_3d: 0.3708  seg_loss_src_2d: 0.1737 (0.0172)  seg_loss_src_3d: 0.0921 (0.1419)  xm_loss_src_2d: 0.0795 (0.0301)  xm_loss_src_3d: 0.1409 (0.1066)  xm_loss_trg_2d: 0.1958 (0.0833)  xm_loss_trg_3d: 0.3253 (0.1896)  time: 0.6542 (0.6490)  data: 0.0108 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:58:28,420 xmuda.train INFO: iter: 2750  seg_iou_2d: 0.8206  seg_iou_3d: 0.3721  seg_loss_src_2d: 0.0460 (0.0182)  seg_loss_src_3d: 0.0650 (0.1406)  xm_loss_src_2d: 0.0404 (0.0304)  xm_loss_src_3d: 0.0515 (0.1058)  xm_loss_trg_2d: 0.1989 (0.0856)  xm_loss_trg_3d: 0.1928 (0.1903)  time: 0.6501 (0.6491)  data: 0.0105 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:59:01,283 xmuda.train INFO: iter: 2800  seg_iou_2d: 0.8201  seg_iou_3d: 0.3735  seg_loss_src_2d: 0.0183 (0.0183)  seg_loss_src_3d: 0.0627 (0.1393)  xm_loss_src_2d: 0.0321 (0.0305)  xm_loss_src_3d: 0.0403 (0.1047)  xm_loss_trg_2d: 0.1381 (0.0869)  xm_loss_trg_3d: 0.1488 (0.1897)  time: 0.6550 (0.6492)  data: 0.0099 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 22:59:34,161 xmuda.train INFO: iter: 2850  seg_iou_2d: 0.8217  seg_iou_3d: 0.3749  seg_loss_src_2d: 0.0088 (0.0181)  seg_loss_src_3d: 0.0613 (0.1379)  xm_loss_src_2d: 0.0279 (0.0305)  xm_loss_src_3d: 0.0352 (0.1035)  xm_loss_trg_2d: 0.1101 (0.0874)  xm_loss_trg_3d: 0.1301 (0.1886)  time: 0.6527 (0.6494)  data: 0.0103 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:00:07,120 xmuda.train INFO: iter: 2900  seg_iou_2d: 0.8237  seg_iou_3d: 0.3763  seg_loss_src_2d: 0.0057 (0.0179)  seg_loss_src_3d: 0.0626 (0.1366)  xm_loss_src_2d: 0.0291 (0.0304)  xm_loss_src_3d: 0.0350 (0.1023)  xm_loss_trg_2d: 0.1124 (0.0877)  xm_loss_trg_3d: 0.1374 (0.1876)  time: 0.6531 (0.6495)  data: 0.0101 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:00:40,332 xmuda.train INFO: iter: 2950  seg_iou_2d: 0.8259  seg_iou_3d: 0.3773  seg_loss_src_2d: 0.0034 (0.0177)  seg_loss_src_3d: 0.0676 (0.1354)  xm_loss_src_2d: 0.0265 (0.0304)  xm_loss_src_3d: 0.0377 (0.1012)  xm_loss_trg_2d: 0.0960 (0.0879)  xm_loss_trg_3d: 0.1261 (0.1865)  time: 0.6627 (0.6498)  data: 0.0107 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:01:13,088 xmuda.train INFO: iter: 3000  seg_iou_2d: 0.8281  seg_iou_3d: 0.3785  seg_loss_src_2d: 0.0028 (0.0175)  seg_loss_src_3d: 0.0670 (0.1342)  xm_loss_src_2d: 0.0294 (0.0303)  xm_loss_src_3d: 0.0372 (0.1002)  xm_loss_trg_2d: 0.0963 (0.0881)  xm_loss_trg_3d: 0.1303 (0.1855)  time: 0.6495 (0.6499)  data: 0.0103 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:01:45,873 xmuda.train INFO: iter: 3050  seg_iou_2d: 0.8301  seg_iou_3d: 0.3797  seg_loss_src_2d: 0.0025 (0.0172)  seg_loss_src_3d: 0.0611 (0.1331)  xm_loss_src_2d: 0.0237 (0.0303)  xm_loss_src_3d: 0.0343 (0.0991)  xm_loss_trg_2d: 0.0841 (0.0882)  xm_loss_trg_3d: 0.1234 (0.1846)  time: 0.6476 (0.6500)  data: 0.0102 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:02:18,595 xmuda.train INFO: iter: 3100  seg_iou_2d: 0.8323  seg_iou_3d: 0.3808  seg_loss_src_2d: 0.0018 (0.0170)  seg_loss_src_3d: 0.0654 (0.1320)  xm_loss_src_2d: 0.0295 (0.0302)  xm_loss_src_3d: 0.0368 (0.0981)  xm_loss_trg_2d: 0.0850 (0.0881)  xm_loss_trg_3d: 0.1137 (0.1835)  time: 0.6561 (0.6500)  data: 0.0101 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:02:51,531 xmuda.train INFO: iter: 3150  seg_iou_2d: 0.8345  seg_iou_3d: 0.3820  seg_loss_src_2d: 0.0013 (0.0167)  seg_loss_src_3d: 0.0616 (0.1309)  xm_loss_src_2d: 0.0236 (0.0301)  xm_loss_src_3d: 0.0349 (0.0971)  xm_loss_trg_2d: 0.0799 (0.0880)  xm_loss_trg_3d: 0.1131 (0.1824)  time: 0.6627 (0.6502)  data: 0.0102 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:03:24,346 xmuda.train INFO: iter: 3200  seg_iou_2d: 0.8366  seg_iou_3d: 0.3832  seg_loss_src_2d: 0.0023 (0.0165)  seg_loss_src_3d: 0.0636 (0.1298)  xm_loss_src_2d: 0.0293 (0.0301)  xm_loss_src_3d: 0.0370 (0.0961)  xm_loss_trg_2d: 0.0794 (0.0879)  xm_loss_trg_3d: 0.1143 (0.1813)  time: 0.6550 (0.6503)  data: 0.0104 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:03:57,138 xmuda.train INFO: iter: 3250  seg_iou_2d: 0.8386  seg_iou_3d: 0.3843  seg_loss_src_2d: 0.0020 (0.0163)  seg_loss_src_3d: 0.0593 (0.1288)  xm_loss_src_2d: 0.0211 (0.0300)  xm_loss_src_3d: 0.0328 (0.0952)  xm_loss_trg_2d: 0.0739 (0.0877)  xm_loss_trg_3d: 0.1137 (0.1804)  time: 0.6546 (0.6503)  data: 0.0102 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:04:29,876 xmuda.train INFO: iter: 3300  seg_iou_2d: 0.8406  seg_iou_3d: 0.3855  seg_loss_src_2d: 0.0009 (0.0161)  seg_loss_src_3d: 0.0566 (0.1277)  xm_loss_src_2d: 0.0204 (0.0299)  xm_loss_src_3d: 0.0316 (0.0942)  xm_loss_trg_2d: 0.0719 (0.0875)  xm_loss_trg_3d: 0.1126 (0.1794)  time: 0.6529 (0.6504)  data: 0.0101 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:05:02,627 xmuda.train INFO: iter: 3350  seg_iou_2d: 0.8426  seg_iou_3d: 0.3867  seg_loss_src_2d: 0.0006 (0.0158)  seg_loss_src_3d: 0.0566 (0.1266)  xm_loss_src_2d: 0.0203 (0.0297)  xm_loss_src_3d: 0.0312 (0.0933)  xm_loss_trg_2d: 0.0679 (0.0873)  xm_loss_trg_3d: 0.1017 (0.1782)  time: 0.6506 (0.6505)  data: 0.0101 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:05:35,466 xmuda.train INFO: iter: 3400  seg_iou_2d: 0.8446  seg_iou_3d: 0.3879  seg_loss_src_2d: 0.0006 (0.0156)  seg_loss_src_3d: 0.0542 (0.1255)  xm_loss_src_2d: 0.0187 (0.0296)  xm_loss_src_3d: 0.0299 (0.0924)  xm_loss_trg_2d: 0.0645 (0.0870)  xm_loss_trg_3d: 0.1020 (0.1772)  time: 0.6498 (0.6506)  data: 0.0102 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:06:08,010 xmuda.train INFO: iter: 3450  seg_iou_2d: 0.8465  seg_iou_3d: 0.3890  seg_loss_src_2d: 0.0005 (0.0154)  seg_loss_src_3d: 0.0554 (0.1245)  xm_loss_src_2d: 0.0215 (0.0294)  xm_loss_src_3d: 0.0304 (0.0915)  xm_loss_trg_2d: 0.0703 (0.0867)  xm_loss_trg_3d: 0.1100 (0.1761)  time: 0.6495 (0.6506)  data: 0.0102 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:06:41,006 xmuda.train INFO: iter: 3500  seg_iou_2d: 0.8483  seg_iou_3d: 0.3901  seg_loss_src_2d: 0.0007 (0.0152)  seg_loss_src_3d: 0.0580 (0.1235)  xm_loss_src_2d: 0.0207 (0.0293)  xm_loss_src_3d: 0.0325 (0.0906)  xm_loss_trg_2d: 0.0657 (0.0864)  xm_loss_trg_3d: 0.1014 (0.1750)  time: 0.6663 (0.6507)  data: 0.0102 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:07:14,186 xmuda.train INFO: iter: 3550  seg_iou_2d: 0.8502  seg_iou_3d: 0.3911  seg_loss_src_2d: 0.0010 (0.0150)  seg_loss_src_3d: 0.0556 (0.1226)  xm_loss_src_2d: 0.0205 (0.0292)  xm_loss_src_3d: 0.0313 (0.0898)  xm_loss_trg_2d: 0.0647 (0.0861)  xm_loss_trg_3d: 0.1039 (0.1740)  time: 0.6652 (0.6509)  data: 0.0101 (0.0103)  lr: 1.00e-03  max mem: 4872
+2023-03-06 23:07:47,302 xmuda.train INFO: iter: 3600  seg_iou_2d: 0.8520  seg_iou_3d: 0.3921  seg_loss_src_2d: 0.0005 (0.0148)  seg_loss_src_3d: 0.0534 (0.1216)  xm_loss_src_2d: 0.0191 (0.0290)  xm_loss_src_3d: 0.0296 (0.0889)  xm_loss_trg_2d: 0.0688 (0.0858)  xm_loss_trg_3d: 0.1109 (0.1731)  time: 0.6767 (0.6510)  data: 0.0103 (0.0103)  lr: 1.00e-03  max mem: 4872
